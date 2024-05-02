@@ -42,11 +42,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
             itemCount: _todoList.length,
             itemBuilder: (context, index) {
               return ListTile(
-                contentPadding: EdgeInsets.zero, 
-                leading: Row( 
+                contentPadding: EdgeInsets.zero,
+                leading: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.star_border_outlined),
+                    Icon(Icons.star),
                     IconButton(
                       icon: Icon(Icons.close),
                       onPressed: () => _removeTodoItem(index),
@@ -64,14 +64,37 @@ class _TodoListScreenState extends State<TodoListScreen> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
+              String newTodo = ''; 
+
               return AlertDialog(
                 title: Text('Add Todo'),
-                content: TextField(
-                  autofocus: true,
-                  onSubmitted: (value) {
-                    _addTodoItem(value);
-                    Navigator.pop(context); 
-                  },
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      autofocus: true,
+                      onChanged: (value) {
+                        newTodo = value; 
+                      },
+                    ),
+                    SizedBox(
+                        height:
+                            20), 
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            if (newTodo.isNotEmpty) {
+                              _addTodoItem(newTodo);
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: Text('Add'), 
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               );
             },
